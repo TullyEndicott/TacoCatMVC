@@ -28,6 +28,14 @@ namespace TacoCatMVC.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult Reverse()
+        {
+            Palindrome model = new();
+
+            return View(model);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
