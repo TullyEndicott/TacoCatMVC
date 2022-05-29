@@ -35,6 +35,37 @@ namespace TacoCatMVC.Controllers
 
             return View(model);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Reverse(Palindrome palindrome)
+        {
+            string inputWord = palindrome.InputWord; //lowercase i for local variable
+            string revWord = "";
+
+            for (int i = inputWord.Length-1; i >= 0;  i--) //start at the end
+            {
+                revWord += inputWord[i]; //concatenate letter from inputWord to revWord
+
+            }
+
+            palindrome.RevWord = revWord;
+
+            revWord = Regex.Replace(revWord.ToLower(),"[^a-zA-Z0-9}]+","");
+            inputWord = Regex.Replace(revWord.ToLower(), "[^a-zA-Z0-9}]+", "");
+
+            if (revWord == inputWord)
+            {
+                palindrome.IsPalindrome = true;
+                palindrome.Message = $"Success {palindrome.InputWord} is a Palindrome";
+            }
+            else 
+            {
+                palindrome.IsPalindrome= false;
+                palindrome.Message = $"Sorry {palindrome.InputWord} is not a Palindrome";
+            }
+
+            return View(palindrome);
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
