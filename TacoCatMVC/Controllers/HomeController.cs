@@ -6,12 +6,15 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using TacoCatMVC.Models;
+using System.Text.RegularExpressions;
 
 namespace TacoCatMVC.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+
+        public object REgex { get; private set; }
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -42,6 +45,7 @@ namespace TacoCatMVC.Controllers
             string inputWord = palindrome.InputWord; //lowercase i for local variable
             string revWord = "";
 
+
             for (int i = inputWord.Length-1; i >= 0;  i--) //start at the end
             {
                 revWord += inputWord[i]; //concatenate letter from inputWord to revWord
@@ -50,10 +54,11 @@ namespace TacoCatMVC.Controllers
 
             palindrome.RevWord = revWord;
 
-            revWord = Regex.Replace(revWord.ToLower(),"[^a-zA-Z0-9}]+","");
-            inputWord = Regex.Replace(revWord.ToLower(), "[^a-zA-Z0-9}]+", "");
+           
+            revWord = Regex.Replace(revWord.ToLower(),     "[^a-zA-Z0-9}]+","");
+            inputWord = Regex.Replace(inputWord.ToLower(), "[^a-zA-Z0-9}]+","");
 
-            if (revWord == inputWord)
+            if (revWord == inputWord)   
             {
                 palindrome.IsPalindrome = true;
                 palindrome.Message = $"Success {palindrome.InputWord} is a Palindrome";
